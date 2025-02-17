@@ -6,9 +6,23 @@ export default createGlobalStyle`
   *::after {
     box-sizing: border-box;
   }
-
+  :root {
+  --body-bg: #FFEBCD;
+  --header-bg: #201E1D;
+  --header-text: #FAB1D9;
+  --main-bg: #FFEBCD;
+  --main-text: #201E1D;
+  --main-title-bg: #FAB1D9;
+  --card-bg: #C9F091;
+  --card-text: #201E1D;
+}
   body {
+    
     margin: 0;
     font-family: system-ui;
+  }
+
+  a {
+    text-decoration: none;
   }
 `;
