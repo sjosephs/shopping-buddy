@@ -10,7 +10,7 @@ const shoppingItemSchema = new Schema({
 });
 
 const shoppingItem =
-  mongoose.models.shoppingItem ||
+  mongoose.models.ShoppingItem ||
   mongoose.model("Shopping Item", shoppingItemSchema);
 
 export default shoppingItem;
