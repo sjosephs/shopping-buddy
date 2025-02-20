@@ -21,21 +21,20 @@ const BackLink = styled.a`
   transform: translateY(-50%);
   text-decoration: none;
   font-weight: bold;
-  color: black;
   cursor: pointer;
 `;
 
 export default function TitleBar() {
   const router = useRouter();
 
-  let title = "Shopping Buddy";
+  let title = "";
   let showBackLink = false;
 
   if (router.pathname.startsWith("/items/")) {
     title = "Details";
     showBackLink = true;
   } else if (router.pathname === "/") {
-    title = "Home";
+    title = "Shopping Buddy";
   }
 
   return (
