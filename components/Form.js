@@ -42,6 +42,7 @@ export default function Form({ onSubmit }) {
     const data = Object.fromEntries(formData);
     await onSubmit(data); // Call the onSubmit function passed from parent
     event.target.reset();
+    setIsOpen(false);
   }
 
   return (

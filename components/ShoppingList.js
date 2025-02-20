@@ -1,11 +1,17 @@
 import ShoppingItem from "./ShoppingItem";
+import styled from "styled-components";
+
+const StyledList = styled.ul`
+  list-style: none;
+  padding: 0;
+`;
 
 export default function ShoppingList({ shoppingItemData }) {
-  if (!shoppingItemData?.length) return <p>No items found.</p>;
+  if (!shoppingItemData?.length === 0) return <p>No items found.</p>;
 
   return (
     <>
-      <ul style={{ listStyle: "none", padding: 0 }}>
+      <StyledList>
         {shoppingItemData.map((item) => (
           <li key={item._id}>
             <ShoppingItem
@@ -16,7 +22,7 @@ export default function ShoppingList({ shoppingItemData }) {
             />
           </li>
         ))}
-      </ul>
+      </StyledList>
     </>
   );
 }

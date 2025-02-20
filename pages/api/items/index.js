@@ -6,14 +6,12 @@ export default async function handler(request, response) {
 
   if (request.method === "GET") {
     const items = await Item.find().sort({ createdAt: -1 });
-    console.log(items);
     return response.status(200).json(items);
   }
 
   if (request.method === "POST") {
     try {
       const newItem = await Item.create(request.body);
-      console.log(newItem);
       return response.status(201).json(newItem);
     } catch (error) {
       console.error(error);
