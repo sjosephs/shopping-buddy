@@ -1,16 +1,15 @@
 import mongoose from "mongoose";
 const { Schema } = mongoose;
 
-const shoppingItemSchema = new Schema({
+const itemSchema = new Schema({
   name: { type: String, required: true },
   imageUrl: { type: String, required: true },
   quantity: { type: Number, required: true },
   category: { type: String, required: true },
   comment: { type: String, required: false },
+  createdAt: { type: Date, default: Date.now },
 });
 
-const shoppingItem =
-  mongoose.models.ShoppingItem ||
-  mongoose.model("Shopping Item", shoppingItemSchema);
+const Item = mongoose.models.Item || mongoose.model("Item", itemSchema);
 
-export default shoppingItem;
+export default Item;

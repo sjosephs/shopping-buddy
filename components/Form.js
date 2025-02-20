@@ -1,3 +1,4 @@
+import { Fragment, useState } from "react";
 import styled from "styled-components";
 
 export const FormContainer = styled.form`
@@ -9,27 +10,12 @@ export const FormContainer = styled.form`
   border-radius: 8px;
 `;
 
-export const Input = styled.input`
-  padding: 0.5rem;
-  font-size: inherit;
+const ToggleButton = styled.button`
+  font-size: 1.5rem;
+  background-color: lightgray;
   border: 1px solid black;
-  border-radius: 0.5rem;
-`;
-
-const Select = styled.select`
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-`;
-
-export const Label = styled.label`
-  font-weight: bold;
-`;
-
-export const Textarea = styled.textarea`
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 1rem;
 `;
 
 export const StyledButton = styled.button`
@@ -46,6 +32,9 @@ export const StyledButton = styled.button`
 `;
 
 export default function Form({ onSubmit }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const handleToggle = () => setIsOpen(!isOpen);
+
   async function handleSubmit(event) {
     event.preventDefault();
 
@@ -56,37 +45,59 @@ export default function Form({ onSubmit }) {
   }
 
   return (
-    <FormContainer onSubmit={handleSubmit}>
-      <Label htmlFor="name">Item Name</Label>
-      <Input name="name" type="text" placeholder="Enter item name" required />
-      <Label htmlFor="quantity">Quantity</Label>
-      <Input
-        name="quantity"
-        type="number"
-        min="1"
-        placeholder="Enter quantity"
-        required
-      />
-      <Label htmlFor="category">Category</Label>
-      <select name="category" defaultValue="" required>
-        <option value="" disabled>
-          Please select a category
-        </option>
-        <option value="Dairy">Dairy</option>
-        <option value="Meat">Meat</option>
-        <option value="Vegetables">Vegetables</option>
-        <option value="Bakery">Bakery</option>
-        <option value="Fruits">Fruits</option>
-      </select>
+    <Fragment>
+      <ToggleButton onClick={handleToggle}>
+        {isOpen ? "- Collapse" : "+ Add item"}
+      </ToggleButton>
+      {isOpen && (
+        <FormContainer onSubmit={handleSubmit}>
+          <label htmlFor="name">Item Name</label>
+          <input
+            name="name"
+            type="text"
+            placeholder="Enter item name"
+            required
+          />
 
-      <Label htmlFor="comment">Comment</Label>
-      <Textarea
-        name="comment"
-        cols="30"
-        rows="10"
-        placeholder="Optional comment"
-      ></Textarea>
-      <StyledButton type="submit">Submit</StyledButton>
-    </FormContainer>
+          <label htmlFor="quantity">Quantity</label>
+          <input
+            name="quantity"
+            type="number"
+            min="1"
+            placeholder="Enter quantity"
+            required
+          />
+
+          <label htmlFor="category">Category</label>
+          <select name="category" defaultValue="" required>
+            <option value="" disabled>
+              Please select a category
+            </option>
+            <option value="Dairy">Dairy</option>
+            <option value="Meat">Meat</option>
+            <option value="Vegetables">Vegetables</option>
+            <option value="Bakery">Bakery</option>
+            <option value="Fruits">Fruits</option>
+          </select>
+
+          <label htmlFor="imageUrl">Image URL</label>
+          <input
+            name="imageUrl"
+            type="url"
+            placeholder="Enter image URL"
+            required
+          />
+
+          <label htmlFor="comment">Comment</label>
+          <textarea
+            name="comment"
+            cols="30"
+            rows="10"
+            placeholder="Optional comment"
+          ></textarea>
+          <StyledButton type="submit">Submit</StyledButton>
+        </FormContainer>
+      )}
+    </Fragment>
   );
 }
