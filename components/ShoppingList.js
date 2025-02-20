@@ -1,7 +1,7 @@
 import ShoppingItem from "./ShoppingItem";
 
 export default function ShoppingList({ shoppingItemData }) {
-  if (!shoppingItemData?.length) return <p>No items found.</p>;
+  if (shoppingItemData?.length === 0) return <p>No items found.</p>;
 
   return (
     <>
