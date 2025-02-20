@@ -7,7 +7,7 @@ const StyledList = styled.ul`
 `;
 
 export default function ShoppingList({ shoppingItemData }) {
-  if (!shoppingItemData?.length === 0) return <p>No items found.</p>;
+  if (shoppingItemData?.length === 0) return <p>No items found.</p>;
 
   return (
     <>
