@@ -1,5 +1,6 @@
 import Image from "next/image";
 import styled from "styled-components";
+import Link from "next/link";
 
 const Article = styled.article`
   border: 1px solid black;
@@ -12,14 +13,17 @@ export default function ShoppingItem({
   cardTitle,
   cardQuantity,
   cardCategory,
+  cardId,
 }) {
   return (
     <Article>
-      <Image src={cardImage} alt={cardTitle} width={400} height={300}></Image>
+      <Link href={`items/${cardId}`}>
+        <Image src={cardImage} alt={cardTitle} width={400} height={300}></Image>
 
-      <p>{cardTitle}</p>
-      <p>{cardQuantity}</p>
-      <p>{cardCategory}</p>
+        <p>{cardTitle}</p>
+        <p>{cardQuantity}</p>
+        <p>{cardCategory}</p>
+      </Link>
     </Article>
   );
 }
