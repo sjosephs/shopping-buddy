@@ -19,6 +19,7 @@ export default function ShoppingList({ shoppingItemData }) {
               cardTitle={item.name}
               cardQuantity={item.quantity}
               cardCategory={item.category}
+              cardId={item._id}
             />
           </li>
         ))}
