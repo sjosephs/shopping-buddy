@@ -82,12 +82,7 @@ export default function Form({ onSubmit }) {
           </select>
 
           <label htmlFor="imageUrl">Image URL</label>
-          <input
-            name="imageUrl"
-            type="url"
-            placeholder="Enter image URL"
-            required
-          />
+          <input name="imageUrl" type="url" placeholder="Enter image URL" />
 
           <label htmlFor="comment">Comment</label>
           <textarea
