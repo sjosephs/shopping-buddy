@@ -7,8 +7,6 @@ export default function HomePage() {
   const { data: shoppingItems, mutate } = useSWR("/api/items", fetcher);
 
   async function handleSubmit(data) {
-    console.log(data);
-
     const response = await fetch("/api/items", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -20,6 +18,7 @@ export default function HomePage() {
     }
     mutate();
   }
+
   async function handleDeleteItem(cardId) {
     const response = await fetch(`/api/items/${cardId}`, { method: "DELETE" });
 
@@ -30,7 +29,8 @@ export default function HomePage() {
     mutate();
   }
 
-  console.log("shoppingItems", shoppingItems);
+
+
 
   if (!shoppingItems) return <p>Loading items...</p>;
 
