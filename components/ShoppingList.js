@@ -1,6 +1,6 @@
 import ShoppingItem from "./ShoppingItem";
 
-export default function ShoppingList({ shoppingItemData }) {
+export default function ShoppingList({ onDeleteItem, shoppingItemData }) {
   if (!shoppingItemData?.length) return <p>No items found.</p>;
 
   return (
@@ -9,6 +9,8 @@ export default function ShoppingList({ shoppingItemData }) {
         {shoppingItemData.map((item) => (
           <li key={item._id}>
             <ShoppingItem
+              cardId={item._id}
+              onDeleteItem={onDeleteItem}
               cardImage={item.imageUrl}
               cardTitle={item.name}
               cardQuantity={item.quantity}

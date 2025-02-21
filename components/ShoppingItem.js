@@ -12,6 +12,8 @@ export default function ShoppingItem({
   cardTitle,
   cardQuantity,
   cardCategory,
+  onDeleteItem,
+  cardId,
 }) {
   return (
     <Article>
@@ -20,6 +22,7 @@ export default function ShoppingItem({
       <p>{cardTitle}</p>
       <p>{cardQuantity}</p>
       <p>{cardCategory}</p>
+      <button onClick={() => onDeleteItem(cardId)}>DELETE</button>
     </Article>
   );
 }
