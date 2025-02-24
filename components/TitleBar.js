@@ -25,20 +25,25 @@ const BackLink = styled.a`
   cursor: pointer;
 `;
 
-export default function TitleBar() {
+export default function TitleBar({}) {
   const router = useRouter();
+  const { id } = router.query;
 
   const [title, setTitle] = useState("");
   const [showBackLink, setShowBackLink] = useState(false);
+
   useEffect(() => {
-    if (router.pathname.startsWith("/items/")) {
-      setTitle("Details");
-      setShowBackLink(true);
-    } else if (router.pathname === "/") {
+    if (router.pathname === "/") {
       setTitle("Shopping Buddy");
       setShowBackLink(false);
+    } else if (router.pathname.endsWith("/edit")) {
+      setTitle("Edit");
+      setShowBackLink(true);
+    } else if (id) {
+      setTitle("Details");
+      setShowBackLink(true);
     }
-  }, [router.pathname]);
+  }, [router.pathname, id]);
 
   return (
     <Headline>

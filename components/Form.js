@@ -74,8 +74,6 @@ export default function Form({
       )}
       {(isOpen || isEditMode) && (
         <FormContainer onSubmit={handleSubmit}>
-          <h1>{isEditMode ? "Edit Shopping Item" : "Add New Shopping Item"}</h1>
-
           <label htmlFor="name">Item Name</label>
           <input
             name="name"
