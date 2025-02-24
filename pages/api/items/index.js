@@ -2,18 +2,16 @@ import dbConnect from "@/db/connect";
 import Item from "@/db/models/Item";
 
 export default async function handler(request, response) {
-  await dbConnect();
+await dbConnect();
 
   if (request.method === "GET") {
     const items = await Item.find().sort({ createdAt: -1 });
-    console.log(items);
     return response.status(200).json(items);
   }
 
   if (request.method === "POST") {
     try {
       const newItem = await Item.create(request.body);
-      console.log(newItem);
       return response.status(201).json(newItem);
     } catch (error) {
       console.error(error);

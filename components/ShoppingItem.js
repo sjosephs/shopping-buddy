@@ -13,17 +13,18 @@ export default function ShoppingItem({
   cardTitle,
   cardQuantity,
   cardCategory,
+  onDeleteItem,
   cardId,
 }) {
   return (
     <Article>
       <Link href={`items/${cardId}`}>
         <Image src={cardImage} alt={cardTitle} width={400} height={300}></Image>
-
-        <p>{cardTitle}</p>
-        <p>{cardQuantity}</p>
-        <p>{cardCategory}</p>
-      </Link>
+      <p>{cardTitle}</p>
+      <p>{cardQuantity}</p>
+      <p>{cardCategory}</p>
+      <button onClick={() => onDeleteItem(cardId)}>DELETE</button>
+       </Link>
     </Article>
   );
 }

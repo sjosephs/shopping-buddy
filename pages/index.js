@@ -7,8 +7,6 @@ export default function HomePage() {
   const { data: shoppingItems, mutate } = useSWR("/api/items", fetcher);
 
   async function handleSubmit(data) {
-    console.log(data);
-
     const response = await fetch("/api/items", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -20,14 +18,32 @@ export default function HomePage() {
     }
     mutate();
   }
-  console.log("shoppingItems", shoppingItems);
+
+  async function handleDeleteItem(cardId) {
+    const isConfirmed = window.confirm(
+      "Are you sure you want to delete this item?"
+    );
+    if (!isConfirmed) return;
+    const response = await fetch(`/api/items/${cardId}`, { method: "DELETE" });
+    if (!response.ok) {
+      console.log(response.status);
+      return;
+    }
+    mutate();
+  }
+
+
+
 
   if (!shoppingItems) return <p>Loading items...</p>;
 
   return (
     <div>
       <Form onSubmit={handleSubmit} />
-      <ShoppingList shoppingItemData={shoppingItems} />
+      <ShoppingList
+        onDeleteItem={handleDeleteItem}
+        shoppingItemData={shoppingItems}
+      />
     </div>
   );
 }

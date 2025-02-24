@@ -1,14 +1,26 @@
 import ShoppingItem from "./ShoppingItem";
+import styled from "styled-components";
 
-export default function ShoppingList({ shoppingItemData }) {
+const StyledList = styled.ul`
+  list-style: none;
+  padding: 0;
+`;
+
+
+export default function ShoppingList({ onDeleteItem, shoppingItemData }) {
   if (!shoppingItemData?.length) return <p>No items found.</p>;
+
+
+
 
   return (
     <>
-      <ul style={{ listStyle: "none", padding: 0 }}>
+      <StyledList>
         {shoppingItemData.map((item) => (
           <li key={item._id}>
             <ShoppingItem
+              cardId={item._id}
+              onDeleteItem={onDeleteItem}
               cardImage={item.imageUrl}
               cardTitle={item.name}
               cardQuantity={item.quantity}
@@ -17,7 +29,7 @@ export default function ShoppingList({ shoppingItemData }) {
             />
           </li>
         ))}
-      </ul>
+      </StyledList>
     </>
   );
 }
