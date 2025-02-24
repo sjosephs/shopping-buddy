@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import styled from "styled-components";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 
 const Headline = styled.h1`
   position: fixed;
