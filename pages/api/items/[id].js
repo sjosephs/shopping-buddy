@@ -10,7 +10,7 @@ export default async function handler(request, response) {
       if (!deleteShoppingItem) {
         return response.status(404).json({ message: "Item not found" });
       }
-      response.status(200).json({ message: "Successfully deleted this place" });
+      response.status(200).json({ message: "Successfully deleted this item" });
       return;
     }
   } catch (error) {
