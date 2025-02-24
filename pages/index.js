@@ -20,8 +20,11 @@ export default function HomePage() {
   }
 
   async function handleDeleteItem(cardId) {
+    const isConfirmed = window.confirm(
+      "Are you sure you want to delete this item?"
+    );
+    if (!isConfirmed) return;
     const response = await fetch(`/api/items/${cardId}`, { method: "DELETE" });
-
     if (!response.ok) {
       console.log(response.status);
       return;
