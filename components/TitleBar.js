@@ -1,5 +1,7 @@
 import { useRouter } from "next/router";
 import styled from "styled-components";
+import { useState } from "react";
+import { useEffect } from "react";
 
 const Headline = styled.h1`
   position: fixed;
@@ -27,15 +29,17 @@ const BackLink = styled.a`
 export default function TitleBar() {
   const router = useRouter();
 
-  let title = "";
-  let showBackLink = false;
-
-  if (router.pathname.startsWith("/items/")) {
-    title = "Details";
-    showBackLink = true;
-  } else if (router.pathname === "/") {
-    title = "Shopping Buddy";
-  }
+  const [title, setTitle] = useState("");
+  const [showBackLink, setShowBackLink] = useState(false);
+  useEffect(() => {
+    if (router.pathname.startsWith("/items/")) {
+      setTitle("Details");
+      setShowBackLink(true);
+    } else if (router.pathname === "/") {
+      setTitle("Shopping Buddy");
+      setShowBackLink(false);
+    }
+  }, [router.pathname]);
 
   return (
     <Headline>
