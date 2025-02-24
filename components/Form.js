@@ -31,8 +31,21 @@ export const StyledButton = styled.button`
   }
 `;
 
-export default function Form({ onSubmit }) {
-  const [isOpen, setIsOpen] = useState(false);
+export const DEFAULT_VALUES = {
+  name: "",
+  quantity: 1,
+  category: "",
+  imageUrl: "",
+  comment: "",
+};
+
+export default function Form({
+  onSubmit,
+  values = DEFAULT_VALUES,
+  isEditMode = false,
+  formName,
+}) {
+  const [isOpen, setIsOpen] = useState(isEditMode); // Open by default if editing
   const handleToggle = () => setIsOpen(!isOpen);
 
   async function handleSubmit(event) {
@@ -40,22 +53,34 @@ export default function Form({ onSubmit }) {
 
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
-    await onSubmit(data); // Call the onSubmit function passed from parent
-    event.target.reset();
-    setIsOpen(false);
+    try {
+      await onSubmit(data); // Call the onSubmit function passed from parent
+      if (!isEditMode) {
+        event.target.reset();
+        setIsOpen(false);
+      }
+    } catch (error) {
+      console.error("Form submission error:", error);
+      alert("Submission failed. Please try again.");
+    }
   }
 
   return (
     <Fragment>
-      <ToggleButton onClick={handleToggle}>
-        {isOpen ? "- Collapse" : "+ Add item"}
-      </ToggleButton>
-      {isOpen && (
+      {!isEditMode && (
+        <ToggleButton onClick={handleToggle}>
+          {isOpen ? "- Collapse" : "+ Add item"}
+        </ToggleButton>
+      )}
+      {(isOpen || isEditMode) && (
         <FormContainer onSubmit={handleSubmit}>
+          <h1>{isEditMode ? "Edit Shopping Item" : "Add New Shopping Item"}</h1>
+
           <label htmlFor="name">Item Name</label>
           <input
             name="name"
             type="text"
+            defaultValue={values.name}
             placeholder="Enter item name"
             required
           />
@@ -65,12 +90,13 @@ export default function Form({ onSubmit }) {
             name="quantity"
             type="number"
             min="1"
+            defaultValue={values.quantity}
             placeholder="Enter quantity"
             required
           />
 
           <label htmlFor="category">Category</label>
-          <select name="category" defaultValue="" required>
+          <select name="category" defaultValue={values.category} required>
             <option value="" disabled>
               Please select a category
             </option>
@@ -82,16 +108,24 @@ export default function Form({ onSubmit }) {
           </select>
 
           <label htmlFor="imageUrl">Image URL</label>
-          <input name="imageUrl" type="url" placeholder="Enter image URL" />
+          <input
+            name="imageUrl"
+            type="url"
+            defaultValue={values.imageUrl}
+            placeholder="Enter image URL (optional)"
+          />
 
           <label htmlFor="comment">Comment</label>
           <textarea
             name="comment"
             cols="30"
             rows="10"
+            defaultValue={values.comment}
             placeholder="Optional comment"
           ></textarea>
-          <StyledButton type="submit">Submit</StyledButton>
+          <StyledButton type="submit">
+            {isEditMode ? "Save Changes" : "Submit"}
+          </StyledButton>
         </FormContainer>
       )}
     </Fragment>
