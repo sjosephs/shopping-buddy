@@ -18,13 +18,13 @@ export default function ShoppingItem({
 }) {
   return (
     <Article>
-      <Link href={`items/${cardId}`}>
-        <Image src={cardImage} alt={cardTitle} width={400} height={300}></Image>
+      <Link href={`items/${cardId}`} passHref>
+        <Image src={cardImage} alt={cardTitle} width={400} height={300} />
+      </Link>
       <p>{cardTitle}</p>
       <p>{cardQuantity}</p>
       <p>{cardCategory}</p>
       <button onClick={() => onDeleteItem(cardId)}>DELETE</button>
-       </Link>
     </Article>
   );
 }
