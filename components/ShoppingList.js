@@ -6,12 +6,8 @@ const StyledList = styled.ul`
   padding: 0;
 `;
 
-
 export default function ShoppingList({ onDeleteItem, shoppingItemData }) {
   if (!shoppingItemData?.length) return <p>No items found.</p>;
-
-
-
 
   return (
     <>
@@ -25,7 +21,6 @@ export default function ShoppingList({ onDeleteItem, shoppingItemData }) {
               cardTitle={item.name}
               cardQuantity={item.quantity}
               cardCategory={item.category}
-              cardId={item._id}
             />
           </li>
         ))}
