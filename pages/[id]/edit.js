@@ -26,8 +26,6 @@ export default function ItemPage() {
       return;
     }
 
-    await mutate();
-
     router.push("/"); // redirect back to the list after saving changes
   }
 

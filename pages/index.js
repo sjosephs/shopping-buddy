@@ -2,6 +2,15 @@ import Form from "@/components/Form";
 import ShoppingList from "@/components/ShoppingList";
 import useSWR from "swr";
 import { Fragment, useState } from "react";
+import styled from "styled-components";
+
+const ToggleButton = styled.button`
+  font-size: 1.5rem;
+  background-color: lightgray;
+  border: 1px solid black;
+  cursor: pointer;
+  margin-bottom: 1rem;
+`;
 
 const fetcher = (url) => fetch(url).then((response) => response.json());
 export default function HomePage() {
@@ -27,9 +36,9 @@ export default function HomePage() {
 
   return (
     <Fragment>
-      <button onClick={handleToggle}>
+      <ToggleButton onClick={handleToggle}>
         {isOpen ? "- Collapse" : "+ Add item"}
-      </button>
+      </ToggleButton>
       {isOpen && (
         <Form
           onSubmit={(data) => {
