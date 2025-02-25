@@ -2,7 +2,7 @@ import dbConnect from "@/db/connect";
 import Item from "@/db/models/Item";
 
 export default async function handler(request, response) {
-await dbConnect();
+  await dbConnect();
 
   if (request.method === "GET") {
     const items = await Item.find().sort({ createdAt: -1 });
