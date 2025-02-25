@@ -18,7 +18,7 @@ export default function ShoppingItem({
 }) {
   return (
     <Article>
-      <Link href={`/${cardId}`} passHref>
+      <Link href={`/${cardId}`}>
         <Image
           src={
             cardImage ||

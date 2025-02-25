@@ -18,32 +18,14 @@ export default function HomePage() {
     }
     mutate();
   }
-
-  async function handleDeleteItem(cardId) {
-    const isConfirmed = window.confirm(
-      "Are you sure you want to delete this item?"
-    );
-    if (!isConfirmed) return;
-    const response = await fetch(`/api/items/${cardId}`, { method: "DELETE" });
-    if (!response.ok) {
-      console.log(response.status);
-      return;
-    }
-    mutate();
-  }
-
-
-
+  //console.log("shoppingItems", shoppingItems);
 
   if (!shoppingItems) return <p>Loading items...</p>;
 
   return (
     <div>
       <Form onSubmit={handleSubmit} />
-      <ShoppingList
-        onDeleteItem={handleDeleteItem}
-        shoppingItemData={shoppingItems}
-      />
+      <ShoppingList shoppingItemData={shoppingItems} />
     </div>
   );
 }

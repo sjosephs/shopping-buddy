@@ -27,7 +27,8 @@ export default async function handler(request, response) {
     if (request.method === "PUT") {
       const updatedItem = await Item.findByIdAndUpdate(id, request.body);
       if (!updatedItem) {
-        return response.status(404).json({ message: "Item not found" });
+        response.status(404).json({ message: "Item not found" });
+        return;
       }
       return response.status(200).json(updatedItem);
     }
