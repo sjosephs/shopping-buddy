@@ -1,10 +1,13 @@
 import Form from "@/components/Form";
 import ShoppingList from "@/components/ShoppingList";
 import useSWR from "swr";
+import { Fragment, useState } from "react";
 
 const fetcher = (url) => fetch(url).then((response) => response.json());
 export default function HomePage() {
   const { data: shoppingItems, mutate } = useSWR("/api/items", fetcher);
+  const [isOpen, setIsOpen] = useState(false);
+  const handleToggle = () => setIsOpen(!isOpen);
 
   async function handleSubmit(data) {
     const response = await fetch("/api/items", {
@@ -23,9 +26,20 @@ export default function HomePage() {
   if (!shoppingItems) return <p>Loading items...</p>;
 
   return (
-    <div>
-      <Form onSubmit={handleSubmit} />
+    <Fragment>
+      <button onClick={handleToggle}>
+        {isOpen ? "- Collapse" : "+ Add item"}
+      </button>
+      {isOpen && (
+        <Form
+          onSubmit={(data) => {
+            handleSubmit(data);
+            setIsOpen(false);
+          }}
+          buttonName="Submit"
+        />
+      )}
       <ShoppingList shoppingItemData={shoppingItems} />
-    </div>
+    </Fragment>
   );
 }
