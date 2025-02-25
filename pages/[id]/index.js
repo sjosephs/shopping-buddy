@@ -17,5 +17,5 @@ export default function DetailsPage() {
   if (!id || isLoading) return <h2>Loading...</h2>;
   if (error) return <h2>Error loading item.</h2>;
 
-  return <ShoppingItemDetails item={item} />;
+  return <ShoppingItemDetails item={item} id={id} />;
 }
