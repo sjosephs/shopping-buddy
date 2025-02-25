@@ -36,6 +36,9 @@ export default function TitleBar({}) {
     if (router.pathname === "/") {
       setTitle("Shopping Buddy");
       setShowBackLink(false);
+    } else if (router.pathname === "/purchased") {
+      setTitle("Shopping History");
+      setShowBackLink(false);
     } else if (router.pathname.endsWith("/edit")) {
       setTitle("Edit");
       setShowBackLink(true);
