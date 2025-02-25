@@ -1,10 +1,22 @@
 import Form from "@/components/Form";
 import ShoppingList from "@/components/ShoppingList";
 import useSWR from "swr";
+import { Fragment, useState } from "react";
+import styled from "styled-components";
+
+const ToggleButton = styled.button`
+  font-size: 1.5rem;
+  background-color: lightgray;
+  border: 1px solid black;
+  cursor: pointer;
+  margin-bottom: 1rem;
+`;
 
 const fetcher = (url) => fetch(url).then((response) => response.json());
 export default function HomePage() {
   const { data: shoppingItems, mutate } = useSWR("/api/items", fetcher);
+  const [isOpen, setIsOpen] = useState(false);
+  const handleToggle = () => setIsOpen(!isOpen);
 
   async function handleSubmit(data) {
     const response = await fetch("/api/items", {
@@ -18,7 +30,6 @@ export default function HomePage() {
     }
     mutate();
   }
-
   async function handleDeleteItem(cardId) {
     const isConfirmed = window.confirm(
       "Are you sure you want to delete this item?"
@@ -32,18 +43,26 @@ export default function HomePage() {
     mutate();
   }
 
-
-
-
   if (!shoppingItems) return <p>Loading items...</p>;
 
   return (
-    <div>
-      <Form onSubmit={handleSubmit} />
+    <Fragment>
+      <ToggleButton onClick={handleToggle}>
+        {isOpen ? "- Collapse" : "+ Add item"}
+      </ToggleButton>
+      {isOpen && (
+        <Form
+          onSubmit={(data) => {
+            handleSubmit(data);
+            setIsOpen(false);
+          }}
+          buttonName="Submit"
+        />
+      )}
       <ShoppingList
         onDeleteItem={handleDeleteItem}
         shoppingItemData={shoppingItems}
       />
-    </div>
+    </Fragment>
   );
 }
