@@ -7,7 +7,7 @@ const itemSchema = new Schema({
   quantity: { type: Number, required: true },
   category: { type: String, required: true },
   comment: { type: String, required: false },
-  purchased: { type: Boolean, default: false },
+  isPurchasable: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },
 });
 

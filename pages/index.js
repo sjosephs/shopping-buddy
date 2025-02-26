@@ -13,8 +13,11 @@ const ToggleButton = styled.button`
 `;
 
 const fetcher = (url) => fetch(url).then((response) => response.json());
+
 export default function HomePage() {
-  const { data: shoppingItems, mutate } = useSWR("/api/items", fetcher);
+  const { data, mutate } = useSWR("/api/items", fetcher);
+  const shoppingItems = data?.filter((item) => !item.isPurchasable);
+
   const [isOpen, setIsOpen] = useState(false);
 
   const handleToggle = () => setIsOpen(!isOpen);
@@ -46,12 +49,13 @@ export default function HomePage() {
 
   async function handleTogglePurchase(id) {
     const item = shoppingItems.find((item) => item._id === id);
+
     if (!item) return;
 
     const response = await fetch(`/api/items/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ purchased: !item.purchased }),
+      body: JSON.stringify({ isPurchasable: !item.isPurchasable }),
     });
     if (!response.ok) {
       console.error("Failed to update item");
@@ -81,7 +85,7 @@ export default function HomePage() {
         onDeleteItem={handleDeleteItem}
         shoppingItemData={shoppingItems}
         onTogglePurchase={handleTogglePurchase}
-        showPurchase
+        isPurchasable
       />
     </Fragment>
   );

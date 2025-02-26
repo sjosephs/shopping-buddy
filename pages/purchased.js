@@ -2,10 +2,11 @@ import ShoppingList from "@/components/ShoppingList";
 import useSWR from "swr";
 
 const fetcher = (url) => fetch(url).then((response) => response.json());
+
 export default function PurchasedPage() {
   const { data, mutate } = useSWR("/api/items", fetcher);
+  const purchasedItems = data?.filter((item) => item.isPurchasable) || [];
 
-  const purchasedItems = data?.filter((item) => item.purchased) || [];
   async function handleDeleteItem(cardId) {
     const isConfirmed = window.confirm(
       "Are you sure you want to delete this item?"
@@ -18,14 +19,16 @@ export default function PurchasedPage() {
     }
     mutate();
   }
+
   async function handleTogglePurchase(id) {
-    const item = data.find((item) => item._id === id);
+    const item = purchasedItems.find((item) => item._id === id);
+
     if (!item) return;
 
     const response = await fetch(`/api/items/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ purchased: !item.purchased }),
+      body: JSON.stringify({ isPurchasable: !item.isPurchasable }),
     });
     if (!response.ok) {
       console.error("Failed to update item");
@@ -33,6 +36,7 @@ export default function PurchasedPage() {
     }
     mutate();
   }
+
   return (
     <ShoppingList
       onTogglePurchase={handleTogglePurchase}
