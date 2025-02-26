@@ -18,7 +18,7 @@ export default createGlobalStyle`
 }
   body {
     margin: 24px;
-    margin-bottom: 80px;
+    margin-bottom: 64px;
     font-family: 'Inter', sans-serif;
   }
 
