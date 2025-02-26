@@ -11,7 +11,7 @@ const Article = styled.article`
 `;
 
 const ItemName = styled.p`
-  text-decoration: ${({ purchased }) => (purchased ? "line-through" : "none")};
+  text-decoration: ${({ $purchased }) => ($purchased ? "line-through" : "none")};
   font-weight: bold;
 `;
 
