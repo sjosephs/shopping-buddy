@@ -28,6 +28,7 @@ export default function ShoppingItem({
   cardId,
   purchased,
   onTogglePurchase,
+  showPurchase,
 }) {
   return (
     <Article $purchased={purchased}>
@@ -51,6 +52,7 @@ export default function ShoppingItem({
         {purchased ? "Purchased" : "Mark as Purchased"}
       </button>
       <button onClick={() => onDeleteItem(cardId)}>DELETE</button>
+      {showPurchase && <div>hello Peter</div>}
     </Article>
   );
 }

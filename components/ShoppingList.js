@@ -23,6 +23,7 @@ export default function ShoppingList({
   onDeleteItem,
   shoppingItemData,
   onTogglePurchase,
+  showPurchase,
 }) {
   if (!shoppingItemData?.length === 0) return <p>No items found.</p>;
 
@@ -74,6 +75,7 @@ export default function ShoppingList({
                 cardCategory={item.category}
                 purchased={item.purchased}
                 onTogglePurchase={onTogglePurchase}
+                showPurchase={showPurchase}
               />
             </li>
           ))}

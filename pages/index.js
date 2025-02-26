@@ -81,6 +81,7 @@ export default function HomePage() {
         onDeleteItem={handleDeleteItem}
         shoppingItemData={shoppingItems}
         onTogglePurchase={handleTogglePurchase}
+        showPurchase
       />
     </Fragment>
   );
