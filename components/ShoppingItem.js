@@ -6,7 +6,7 @@ const Article = styled.article`
   border: 1px solid black;
   border-radius: 0.8rem;
   padding: 0.5rem;
-  opacity: ${({ purchased }) => (purchased ? 0.5 : 1)};
+  opacity: ${({ $purchased }) => ($purchased ? 0.5 : 1)};
   transition: opacity 0.3s ease;
 `;
 
