@@ -17,9 +17,9 @@ export default createGlobalStyle`
   --card-text: #201E1D;
 }
   body {
-    
-    margin: 0;
-    font-family: system-ui;
+    margin: 24px;
+    margin-bottom: 64px;
+    font-family: 'Inter', sans-serif;
   }
 
   a {

@@ -4,6 +4,7 @@ import styled from "styled-components";
 const StyledList = styled.ul`
   list-style: none;
   padding: 0;
+  margin: 0;
 `;
 
 export default function ShoppingList({ onDeleteItem, shoppingItemData }) {
@@ -13,7 +14,7 @@ export default function ShoppingList({ onDeleteItem, shoppingItemData }) {
     <>
       <StyledList>
         {shoppingItemData.map((item) => (
-          <li key={item._id}>
+          <li key={item._id} style={{ margin: 16 }}>
             <ShoppingItem
               cardId={item._id}
               onDeleteItem={onDeleteItem}
