@@ -14,6 +14,10 @@ const Header = styled.div`
   font-size: x-small;
 `;
 
+const Section = styled.section`
+  margin-bottom: 2rem;
+`;
+
 export default function ShoppingList({
   onDeleteItem,
   shoppingItemData,
@@ -22,9 +26,9 @@ export default function ShoppingList({
   if (!shoppingItemData?.length === 0) return <p>No items found.</p>;
 
   const totalItems = shoppingItemData.length;
-  const purchasedItems = shoppingItemData.filter(
-    (item) => item.purchased
-  ).length;
+  const purchasedItems = shoppingItemData.filter((item) => item.purchased);
+
+  const notPurchasedItems = shoppingItemData.filter((item) => !item.purchased);
 
   return (
     <Fragment>
@@ -34,22 +38,46 @@ export default function ShoppingList({
           <p>🎉 All items have been purchased!</p>
         )}
       </Header>
-      <StyledList>
-        {shoppingItemData.map((item) => (
-          <li key={item._id}>
-            <ShoppingItem
-              cardId={item._id}
-              onDeleteItem={onDeleteItem}
-              cardImage={item.imageUrl}
-              cardTitle={item.name}
-              cardQuantity={item.quantity}
-              cardCategory={item.category}
-              purchased={item.purchased}
-              onTogglePurchase={onTogglePurchase}
-            />
-          </li>
-        ))}
-      </StyledList>
+
+      <Section>
+        <h3>Not Purchased ({notPurchasedItems.length}) </h3>
+        <StyledList>
+          {notPurchasedItems.map((item) => (
+            <li key={item._id}>
+              <ShoppingItem
+                cardId={item._id}
+                onDeleteItem={onDeleteItem}
+                cardImage={item.imageUrl}
+                cardTitle={item.name}
+                cardQuantity={item.quantity}
+                cardCategory={item.category}
+                purchased={item.purchased}
+                onTogglePurchase={onTogglePurchase}
+              />
+            </li>
+          ))}
+        </StyledList>
+      </Section>
+
+      <Section>
+        <h3>Purchased ({purchasedItems.length})</h3>
+        <StyledList>
+          {purchasedItems.map((item) => (
+            <li key={item._id}>
+              <ShoppingItem
+                cardId={item._id}
+                onDeleteItem={onDeleteItem}
+                cardImage={item.imageUrl}
+                cardTitle={item.name}
+                cardQuantity={item.quantity}
+                cardCategory={item.category}
+                purchased={item.purchased}
+                onTogglePurchase={onTogglePurchase}
+              />
+            </li>
+          ))}
+        </StyledList>
+      </Section>
     </Fragment>
   );
 }
