@@ -38,7 +38,7 @@ export default function ShoppingItem({
           height={300}
         />
       </Link>
-      <ItemName purchased={purchased}>{cardTitle}</ItemName>
+      <ItemName $purchased={purchased}>{cardTitle}</ItemName>
       <p>{cardQuantity}</p>
       <p>{cardCategory}</p>
       <button onClick={() => onTogglePurchase(cardId)}>
