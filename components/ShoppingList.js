@@ -32,7 +32,6 @@ export default function ShoppingList({
   const notPurchasedItems = shoppingItemData.filter((item) => !item.purchased);
 
   return (
-
     <Fragment>
       <Header>
         <h2>Shopping List ({totalItems} items)</h2>
@@ -81,6 +80,5 @@ export default function ShoppingList({
         </StyledList>
       </Section>
     </Fragment>
-
   );
 }
