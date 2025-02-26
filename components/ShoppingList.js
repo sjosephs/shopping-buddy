@@ -11,6 +11,7 @@ const Header = styled.div`
   text-align: left;
   margin-bottom: 1rem;
   font-style: italic;
+  font-size: x-small;
 `;
 
 export default function ShoppingList({
