@@ -16,6 +16,7 @@ const fetcher = (url) => fetch(url).then((response) => response.json());
 export default function HomePage() {
   const { data: shoppingItems, mutate } = useSWR("/api/items", fetcher);
   const [isOpen, setIsOpen] = useState(false);
+
   const handleToggle = () => setIsOpen(!isOpen);
 
   async function handleSubmit(data) {
@@ -43,7 +44,24 @@ export default function HomePage() {
     mutate();
   }
 
+  async function handleTogglePurchase(id) {
+    const item = shoppingItems.find((item) => item._id === id);
+    if (!item) return;
+
+    const response = await fetch(`/api/items/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ purchased: !item.purchased }),
+    });
+    if (!response.ok) {
+      console.error("Failed to update item");
+      return;
+    }
+    mutate();
+  }
+
   if (!shoppingItems) return <p>Loading items...</p>;
+  if (shoppingItems.error) return <p>Failed to load items.</p>;
 
   return (
     <Fragment>
@@ -62,6 +80,7 @@ export default function HomePage() {
       <ShoppingList
         onDeleteItem={handleDeleteItem}
         shoppingItemData={shoppingItems}
+        onTogglePurchase={handleTogglePurchase}
       />
     </Fragment>
   );

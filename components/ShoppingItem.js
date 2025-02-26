@@ -15,23 +15,28 @@ export default function ShoppingItem({
   cardCategory,
   onDeleteItem,
   cardId,
+  purchased,
+  onTogglePurchase,
 }) {
   return (
-    <Article>
+    <Article purchased={purchased}>
       <Link href={`/${cardId}`}>
         <Image
           src={
             cardImage ||
             "https://plus.unsplash.com/premium_photo-1661332019368-5feafaba06aa?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8ZmFsbGJhY2slMjBpbWFnZSUyMGZvciUyMHNob3BwaW5nJTIwbGlzdHxlbnwwfHwwfHx8MA%3D%3D"
           }
-          alt={cardTitle}
+          alt={cardTitle || "Shopping Item Image"}
           width={400}
           height={300}
-        ></Image>
+        />
       </Link>
       <p>{cardTitle}</p>
       <p>{cardQuantity}</p>
       <p>{cardCategory}</p>
+      <button onClick={() => onTogglePurchase(cardId)}>
+        {purchased ? "Purchased" : "Mark as Purchased"}
+      </button>
       <button onClick={() => onDeleteItem(cardId)}>DELETE</button>
     </Article>
   );

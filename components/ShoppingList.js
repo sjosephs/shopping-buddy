@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import ShoppingItem from "./ShoppingItem";
 import styled from "styled-components";
 
@@ -6,11 +7,32 @@ const StyledList = styled.ul`
   padding: 0;
 `;
 
-export default function ShoppingList({ onDeleteItem, shoppingItemData }) {
-  if (!shoppingItemData?.length) return <p>No items found.</p>;
+const Header = styled.div`
+  text-align: left;
+  margin-bottom: 1rem;
+  font-style: italic;
+`;
+
+export default function ShoppingList({
+  onDeleteItem,
+  shoppingItemData,
+  onTogglePurchase,
+}) {
+  if (!shoppingItemData?.length === 0) return <p>No items found.</p>;
+
+  const totalItems = shoppingItemData.length;
+  const purchasedItems = shoppingItemData.filter(
+    (item) => item.purchased
+  ).length;
 
   return (
-    <>
+    <Fragment>
+      <Header>
+        <h4>Shopping List ({totalItems} items)</h4>
+        {purchasedItems === totalItems && (
+          <p>🎉 All items have been purchased!</p>
+        )}
+      </Header>
       <StyledList>
         {shoppingItemData.map((item) => (
           <li key={item._id}>
@@ -21,10 +43,12 @@ export default function ShoppingList({ onDeleteItem, shoppingItemData }) {
               cardTitle={item.name}
               cardQuantity={item.quantity}
               cardCategory={item.category}
+              purchased={item.purchased}
+              onTogglePurchase={onTogglePurchase}
             />
           </li>
         ))}
       </StyledList>
-    </>
+    </Fragment>
   );
 }
