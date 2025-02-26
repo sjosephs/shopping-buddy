@@ -26,7 +26,7 @@ export default function ShoppingItem({
   onTogglePurchase,
 }) {
   return (
-    <Article purchased={purchased}>
+    <Article $purchased={purchased}>
       <Link href={`/${cardId}`}>
         <Image
           src={
