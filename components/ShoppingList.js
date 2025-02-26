@@ -5,6 +5,7 @@ import styled from "styled-components";
 const StyledList = styled.ul`
   list-style: none;
   padding: 0;
+  margin: 0;
 `;
 
 const Header = styled.div`
@@ -31,6 +32,7 @@ export default function ShoppingList({
   const notPurchasedItems = shoppingItemData.filter((item) => !item.purchased);
 
   return (
+
     <Fragment>
       <Header>
         <h2>Shopping List ({totalItems} items)</h2>
@@ -43,7 +45,7 @@ export default function ShoppingList({
         <h3>Not Purchased ({notPurchasedItems.length}) </h3>
         <StyledList>
           {notPurchasedItems.map((item) => (
-            <li key={item._id}>
+            <li key={item._id} style={{ margin: 16 }}>
               <ShoppingItem
                 cardId={item._id}
                 onDeleteItem={onDeleteItem}
@@ -63,7 +65,7 @@ export default function ShoppingList({
         <h3>Purchased ({purchasedItems.length})</h3>
         <StyledList>
           {purchasedItems.map((item) => (
-            <li key={item._id}>
+            <li key={item._id} style={{ margin: 16 }}>
               <ShoppingItem
                 cardId={item._id}
                 onDeleteItem={onDeleteItem}
@@ -79,5 +81,6 @@ export default function ShoppingList({
         </StyledList>
       </Section>
     </Fragment>
+
   );
 }
