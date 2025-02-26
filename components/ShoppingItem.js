@@ -6,6 +6,13 @@ const Article = styled.article`
   border: 1px solid black;
   border-radius: 0.8rem;
   padding: 0.5rem;
+  opacity: ${({ purchased }) => (purchased ? 0.5 : 1)};
+  transition: opacity 0.3s ease;
+`;
+
+const ItemName = styled.p`
+  text-decoration: ${({ purchased }) => (purchased ? "line-through" : "none")};
+  font-weight: bold;
 `;
 
 export default function ShoppingItem({
@@ -31,7 +38,7 @@ export default function ShoppingItem({
           height={300}
         />
       </Link>
-      <p>{cardTitle}</p>
+      <ItemName purchased={purchased}>{cardTitle}</ItemName>
       <p>{cardQuantity}</p>
       <p>{cardCategory}</p>
       <button onClick={() => onTogglePurchase(cardId)}>
