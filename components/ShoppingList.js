@@ -28,7 +28,7 @@ export default function ShoppingList({
   return (
     <Fragment>
       <Header>
-        <h4>Shopping List ({totalItems} items)</h4>
+        <h2>Shopping List ({totalItems} items)</h2>
         {purchasedItems === totalItems && (
           <p>🎉 All items have been purchased!</p>
         )}
