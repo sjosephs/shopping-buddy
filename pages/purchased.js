@@ -3,7 +3,7 @@ import useSWR from "swr";
 
 
 export default function PurchasedPage() {
-  const { data, mutate } = useSWR("/api/items", fetcher);
+  const { data, mutate } = useSWR("/api/items");
   const purchasedItems = data?.filter((item) => item.isPurchasable) || [];
 
   async function handleDeleteItem(cardId) {
