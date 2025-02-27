@@ -1,7 +1,7 @@
 import Form from "@/components/Form";
 import ShoppingList from "@/components/ShoppingList";
 import useSWR from "swr";
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 
 const ToggleButton = styled.button`
@@ -11,7 +11,6 @@ const ToggleButton = styled.button`
   cursor: pointer;
   margin-bottom: 1rem;
 `;
-
 
 export default function HomePage() {
   const { data, mutate } = useSWR("/api/items");
@@ -46,24 +45,11 @@ export default function HomePage() {
     mutate();
   }
 
-  async function handleTogglePurchase(id) {
-    const response = await fetch(`/api/items/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ isPurchasable: !item.isPurchasable }),
-    });
-    if (!response.ok) {
-      console.error("Failed to update item");
-      return;
-    }
-    mutate("/api/items");
-  }
-
   if (!shoppingItems) return <p>Loading items...</p>;
   if (shoppingItems.error) return <p>Failed to load items.</p>;
 
   return (
-    <Fragment>
+    <>
       <ToggleButton onClick={handleToggle}>
         {isOpen ? "- Collapse" : "+ Add item"}
       </ToggleButton>
@@ -79,9 +65,8 @@ export default function HomePage() {
       <ShoppingList
         onDeleteItem={handleDeleteItem}
         shoppingItemData={shoppingItems}
-        onTogglePurchase={handleTogglePurchase}
         isPurchasable
       />
-    </Fragment>
+    </>
   );
 }

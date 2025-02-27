@@ -17,7 +17,6 @@ const Header = styled.div`
 export default function ShoppingList({
   onDeleteItem,
   shoppingItemData,
-  onTogglePurchase,
   isPurchasable,
 }) {
   if (!shoppingItemData?.length === 0) return <p>No items found.</p>;
@@ -39,8 +38,7 @@ export default function ShoppingList({
               cardQuantity={item.quantity}
               cardCategory={item.category}
               purchased={item.purchased}
-              onTogglePurchase={onTogglePurchase}
-              isPurchasable={isPurchasable}
+              isPurchasable={item.isPurchasable}
             />
           </li>
         ))}

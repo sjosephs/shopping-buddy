@@ -1,6 +1,7 @@
 import Image from "next/image";
 import styled from "styled-components";
 import Link from "next/link";
+import { mutate } from "swr";
 
 const Article = styled.article`
   border: 1px solid black;
@@ -15,9 +16,21 @@ export default function ShoppingItem({
   cardCategory,
   onDeleteItem,
   cardId,
-  onTogglePurchase,
   isPurchasable,
 }) {
+  async function handleTogglePurchase() {
+    const response = await fetch(`/api/items/${cardId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ isPurchasable: !isPurchasable }),
+    });
+    if (!response.ok) {
+      console.error("Failed to update item");
+      return;
+    }
+    mutate("/api/items");
+  }
+
   return (
     <Article>
       <Link href={`/${cardId}`}>
@@ -34,17 +47,11 @@ export default function ShoppingItem({
       <p>{cardTitle}</p>
       <p>{cardQuantity}</p>
       <p>{cardCategory}</p>
-<<<<<<< HEAD
-        <button onClick={() => onTogglePurchase(cardId)}>
-          {isPurchasable ? "Mark as Purchased" : "Purchased"}
-        </button>
-=======
 
-      <button onClick={() => onTogglePurchase(cardId)}>
-        {isPurchasable ? "Mark as Purchased" : "Purchased"}
+      <button onClick={handleTogglePurchase}>
+        {isPurchasable ? "Move to Shopping List" : "Mark as Purchased"}
       </button>
 
->>>>>>> 1408727 (Incorporated the suggestions from PR)
       <button onClick={() => onDeleteItem(cardId)}>DELETE</button>
     </Article>
   );
