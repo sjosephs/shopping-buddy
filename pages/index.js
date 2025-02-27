@@ -14,7 +14,7 @@ const ToggleButton = styled.button`
 
 
 export default function HomePage() {
-  const { data, mutate } = useSWR("/api/items", fetcher);
+  const { data, mutate } = useSWR("/api/items");
   const shoppingItems = data?.filter((item) => !item.isPurchasable);
 
   const [isOpen, setIsOpen] = useState(false);
