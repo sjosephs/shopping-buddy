@@ -1,7 +1,7 @@
 import Form from "@/components/Form";
 import ShoppingList from "@/components/ShoppingList";
 import useSWR from "swr";
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import FilterForm from "@/components/FilterForm";
 
@@ -13,10 +13,8 @@ const ToggleButton = styled.button`
   margin-bottom: 1rem;
 `;
 
-const fetcher = (url) => fetch(url).then((response) => response.json());
-
 export default function HomePage() {
-  const { data, mutate } = useSWR("/api/items", fetcher);
+  const { data, mutate } = useSWR("/api/items");
   const shoppingItems = data?.filter((item) => !item.isPurchasable);
 
   const [isOpen, setIsOpen] = useState(false);
@@ -66,9 +64,17 @@ export default function HomePage() {
     mutate();
   }
 
-  async function handleCategoryFilter(event) {
-    setSelectedCategories(event.target.values);
-  }
+  const handleCategoryFilter = (categories) => {
+    setSelectedCategories(categories);
+  };
+
+  const filteredItems = data?.filter(
+    (item) =>
+      !item.isPurchasable &&
+      (selectedCategories.length === 0 ||
+        selectedCategories.includes(item.category))
+  );
+
   if (!shoppingItems) return <p>Loading items...</p>;
   if (shoppingItems.error) return <p>Failed to load items.</p>;
 
@@ -86,21 +92,13 @@ export default function HomePage() {
           buttonName="Submit"
         />
       )}
+      <FilterForm onFilter={handleCategoryFilter} />
       <ShoppingList
         onDeleteItem={handleDeleteItem}
-        shoppingItemData={shoppingItems}
+        shoppingItemData={filteredItems}
         onTogglePurchase={handleTogglePurchase}
         isPurchasable
       />
-
-      {isOpen && (
-        <Form
-          onSubmit={(data) => {
-            handleCategoryFilter(data);
-            setIsOpen(false);
-          }}
-        />
-      )}
     </>
   );
 }

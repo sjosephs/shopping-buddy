@@ -4,37 +4,36 @@ const FilterContainer = styled.div`
   background-color: gray;
 `;
 
-export default async function FilterForm(event) {
-  event.preventDefault();
-
-  const formData = new FormData(event.target);
-  const data = Object.fromEntries(formData);
-
-  await onSubmit(data);
-  event.target.reset();
+export default function FilterForm({ onFilter }) {
+  const handleFilter = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData);
+    await onFilter(Object.keys(data));
+    event.target.reset();
+  };
 
   return (
     <>
-      <FilterContainer onSubmit={handleFilter}>
+      <FilterContainer>
         <h4>Filter</h4>
         <button>x</button>
-        <button>Reset all</button>
-        <input type="checkbox" name="dairy">
-          Dairy
-        </input>
-        <input type="checkbox" name="bakery">
-          Bakery
-        </input>
-        <input type="checkbox" name="meat">
-          Meat
-        </input>
-        <input type="checkbox" name="fruits">
-          Fruits
-        </input>
-        <input type="checkbox" name="vegetables">
-          Vegetables
-        </input>
-        <button type="submit">Apply Filters</button>
+        <form onSubmit={handleFilter}>
+          <button type="button" onClick={() => onFilter([])}>
+            Reset all
+          </button>
+          <input type="checkbox" name="Dairy" id="dairy" />
+          <label htmlFor="dairy">Dairy</label>
+          <input type="checkbox" name="Bakery" id="bakery" />
+          <label htmlFor="bakery">Bakery</label>
+          <input type="checkbox" name="Meat" id="meat" />
+          <label htmlFor="meat">Meat</label>
+          <input type="checkbox" name="Fruits" id="fruits" />
+          <label htmlFor="fruits">Fruits</label>
+          <input type="checkbox" name="Vegetables" id="vegetables" />
+          <label htmlFor="vegetables">Vegetables</label>
+          <button type="submit">Apply Filters</button>
+        </form>
       </FilterContainer>
     </>
   );
