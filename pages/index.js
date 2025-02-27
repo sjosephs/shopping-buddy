@@ -47,10 +47,6 @@ export default function HomePage() {
   }
 
   async function handleTogglePurchase(id) {
-    const item = shoppingItems.find((item) => item._id === id);
-
-    if (!item) return;
-
     const response = await fetch(`/api/items/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -60,7 +56,7 @@ export default function HomePage() {
       console.error("Failed to update item");
       return;
     }
-    mutate();
+    mutate("/api/items");
   }
 
   if (!shoppingItems) return <p>Loading items...</p>;
