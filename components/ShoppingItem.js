@@ -34,11 +34,9 @@ export default function ShoppingItem({
       <p>{cardTitle}</p>
       <p>{cardQuantity}</p>
       <p>{cardCategory}</p>
-      {isPurchasable && (
         <button onClick={() => onTogglePurchase(cardId)}>
           {isPurchasable ? "Mark as Purchased" : "Purchased"}
         </button>
-      )}
       <button onClick={() => onDeleteItem(cardId)}>DELETE</button>
     </Article>
   );
