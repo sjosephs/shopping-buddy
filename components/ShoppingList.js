@@ -27,7 +27,7 @@ export default function ShoppingList({
       <Header>
         <h2>({shoppingItemData.length} items)</h2>
       </Header>
-
+      <button onClick={() => }>Filter</button>
       <StyledList>
         {shoppingItemData.map((item) => (
           <li key={item._id} style={{ margin: 16 }}>

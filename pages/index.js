@@ -3,6 +3,7 @@ import ShoppingList from "@/components/ShoppingList";
 import useSWR from "swr";
 import { Fragment, useState } from "react";
 import styled from "styled-components";
+import FilterForm from "@/components/FilterForm";
 
 const ToggleButton = styled.button`
   font-size: 1.5rem;
@@ -19,6 +20,7 @@ export default function HomePage() {
   const shoppingItems = data?.filter((item) => !item.isPurchasable);
 
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedCategories, setSelectedCategories] = useState([]);
 
   const handleToggle = () => setIsOpen(!isOpen);
 
@@ -64,11 +66,14 @@ export default function HomePage() {
     mutate();
   }
 
+  async function handleCategoryFilter(event) {
+    setSelectedCategories(event.target.values);
+  }
   if (!shoppingItems) return <p>Loading items...</p>;
   if (shoppingItems.error) return <p>Failed to load items.</p>;
 
   return (
-    <Fragment>
+    <>
       <ToggleButton onClick={handleToggle}>
         {isOpen ? "- Collapse" : "+ Add item"}
       </ToggleButton>
@@ -87,6 +92,15 @@ export default function HomePage() {
         onTogglePurchase={handleTogglePurchase}
         isPurchasable
       />
-    </Fragment>
+
+      {isOpen && (
+        <Form
+          onSubmit={(data) => {
+            handleCategoryFilter(data);
+            setIsOpen(false);
+          }}
+        />
+      )}
+    </>
   );
 }
