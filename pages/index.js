@@ -32,18 +32,6 @@ export default function HomePage() {
     }
     mutate();
   }
-  async function handleDeleteItem(cardId) {
-    const isConfirmed = window.confirm(
-      "Are you sure you want to delete this item?"
-    );
-    if (!isConfirmed) return;
-    const response = await fetch(`/api/items/${cardId}`, { method: "DELETE" });
-    if (!response.ok) {
-      console.log(response.status);
-      return;
-    }
-    mutate();
-  }
 
   if (!shoppingItems) return <p>Loading items...</p>;
   if (shoppingItems.error) return <p>Failed to load items.</p>;
@@ -62,11 +50,7 @@ export default function HomePage() {
           buttonName="Submit"
         />
       )}
-      <ShoppingList
-        onDeleteItem={handleDeleteItem}
-        shoppingItemData={shoppingItems}
-        isPurchasable
-      />
+      <ShoppingList shoppingItemData={shoppingItems} isPurchasable />
     </>
   );
 }

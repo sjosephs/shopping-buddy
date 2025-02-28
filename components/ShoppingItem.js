@@ -14,10 +14,22 @@ export default function ShoppingItem({
   cardTitle,
   cardQuantity,
   cardCategory,
-  onDeleteItem,
   cardId,
   isPurchasable,
 }) {
+  async function handleDeleteItem() {
+    const isConfirmed = window.confirm(
+      "Are you sure you want to delete this item?"
+    );
+    if (!isConfirmed) return;
+    const response = await fetch(`/api/items/${cardId}`, { method: "DELETE" });
+    if (!response.ok) {
+      console.log(response.status);
+      return;
+    }
+    mutate("/api/items");
+  }
+
   async function handleTogglePurchase() {
     const response = await fetch(`/api/items/${cardId}`, {
       method: "PUT",
@@ -52,7 +64,7 @@ export default function ShoppingItem({
         {isPurchasable ? "Move to Shopping List" : "Mark as Purchased"}
       </button>
 
-      <button onClick={() => onDeleteItem(cardId)}>DELETE</button>
+      <button onClick={handleDeleteItem}>DELETE</button>
     </Article>
   );
 }
