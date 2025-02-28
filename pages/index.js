@@ -76,10 +76,6 @@ export default function HomePage() {
         selectedCategories.includes(item.category))
   );
 
-  if (!shoppingItems || shoppingItems.length === 0)
-    return <p>No items found.</p>;
-  if (shoppingItems.error) return <p>Failed to load items.</p>;
-
   return (
     <>
       <ToggleButton onClick={handleFormToggle}>
@@ -101,6 +97,8 @@ export default function HomePage() {
           closeModal={() => setIsFilterOpen(false)}
         />
       )}
+      {shoppingItems.length === 0 && <p>No items found.</p>}
+      {shoppingItems.error && <p>Failed to load items</p>}
       <ShoppingList
         onDeleteItem={handleDeleteItem}
         shoppingItemData={filteredItems}
