@@ -16,10 +16,10 @@ const Header = styled.div`
 export default function ShoppingList({
   onDeleteItem,
   shoppingItemData,
-  onTogglePurchase,
-  isPurchasable,
   toggleFilterDialog,
 }) {
+
+export default function ShoppingList({ onDeleteItem, shoppingItemData }) {
   if (!shoppingItemData?.length === 0) return <p>No items found.</p>;
 
   return (
@@ -46,9 +46,7 @@ export default function ShoppingList({
               cardTitle={item.name}
               cardQuantity={item.quantity}
               cardCategory={item.category}
-              purchased={item.purchased}
-              onTogglePurchase={onTogglePurchase}
-              isPurchasable={isPurchasable}
+              isPurchasable={item.isPurchasable}
             />
           </li>
         ))}

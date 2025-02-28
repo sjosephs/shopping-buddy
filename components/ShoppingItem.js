@@ -1,6 +1,7 @@
 import Image from "next/image";
 import styled from "styled-components";
 import Link from "next/link";
+import { mutate } from "swr";
 
 const Article = styled.article`
   border: 1px solid black;
@@ -13,11 +14,35 @@ export default function ShoppingItem({
   cardTitle,
   cardQuantity,
   cardCategory,
-  onDeleteItem,
   cardId,
-  onTogglePurchase,
   isPurchasable,
 }) {
+  async function handleDeleteItem() {
+    const isConfirmed = window.confirm(
+      "Are you sure you want to delete this item?"
+    );
+    if (!isConfirmed) return;
+    const response = await fetch(`/api/items/${cardId}`, { method: "DELETE" });
+    if (!response.ok) {
+      console.log(response.status);
+      return;
+    }
+    mutate("/api/items");
+  }
+
+  async function handleTogglePurchase() {
+    const response = await fetch(`/api/items/${cardId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ isPurchasable: !isPurchasable }),
+    });
+    if (!response.ok) {
+      console.error("Failed to update item");
+      return;
+    }
+    mutate("/api/items");
+  }
+
   return (
     <Article>
       <Link href={`/${cardId}`}>
@@ -34,12 +59,12 @@ export default function ShoppingItem({
       <p>{cardTitle}</p>
       <p>{cardQuantity}</p>
       <p>{cardCategory}</p>
-      {isPurchasable && (
-        <button onClick={() => onTogglePurchase(cardId)}>
-          {isPurchasable ? "Mark as Purchased" : "Purchased"}
-        </button>
-      )}
-      <button onClick={() => onDeleteItem(cardId)}>DELETE</button>
+
+      <button onClick={handleTogglePurchase}>
+        {isPurchasable ? "Move to Shopping List" : "Mark as Purchased"}
+      </button>
+
+      <button onClick={handleDeleteItem}>DELETE</button>
     </Article>
   );
 }
