@@ -1,7 +1,7 @@
 import Form from "@/components/Form";
 import ShoppingList from "@/components/ShoppingList";
 import useSWR from "swr";
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 
 const ToggleButton = styled.button`
@@ -12,9 +12,10 @@ const ToggleButton = styled.button`
   margin-bottom: 1rem;
 `;
 
-const fetcher = (url) => fetch(url).then((response) => response.json());
 export default function HomePage() {
-  const { data: shoppingItems, mutate } = useSWR("/api/items", fetcher);
+  const { data, mutate } = useSWR("/api/items");
+  const shoppingItems = data?.filter((item) => !item.isPurchasable);
+
   const [isOpen, setIsOpen] = useState(false);
 
   const handleToggle = () => setIsOpen(!isOpen);
@@ -31,40 +32,12 @@ export default function HomePage() {
     }
     mutate();
   }
-  async function handleDeleteItem(cardId) {
-    const isConfirmed = window.confirm(
-      "Are you sure you want to delete this item?"
-    );
-    if (!isConfirmed) return;
-    const response = await fetch(`/api/items/${cardId}`, { method: "DELETE" });
-    if (!response.ok) {
-      console.log(response.status);
-      return;
-    }
-    mutate();
-  }
-
-  async function handleTogglePurchase(id) {
-    const item = shoppingItems.find((item) => item._id === id);
-    if (!item) return;
-
-    const response = await fetch(`/api/items/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ purchased: !item.purchased }),
-    });
-    if (!response.ok) {
-      console.error("Failed to update item");
-      return;
-    }
-    mutate();
-  }
 
   if (!shoppingItems) return <p>Loading items...</p>;
   if (shoppingItems.error) return <p>Failed to load items.</p>;
 
   return (
-    <Fragment>
+    <>
       <ToggleButton onClick={handleToggle}>
         {isOpen ? "- Collapse" : "+ Add item"}
       </ToggleButton>
@@ -77,11 +50,7 @@ export default function HomePage() {
           buttonName="Submit"
         />
       )}
-      <ShoppingList
-        onDeleteItem={handleDeleteItem}
-        shoppingItemData={shoppingItems}
-        onTogglePurchase={handleTogglePurchase}
-      />
-    </Fragment>
+      <ShoppingList shoppingItemData={shoppingItems} isPurchasable />
+    </>
   );
 }
