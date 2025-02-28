@@ -8,11 +8,16 @@ const StyledList = styled.ul`
 `;
 
 const Header = styled.div`
-  text-align: left;
+  display: flex;
+  justify-content: space-between;
   margin-bottom: 1rem;
-  font-style: italic;
-  font-size: x-small;
 `;
+
+export default function ShoppingList({
+  onDeleteItem,
+  shoppingItemData,
+  toggleFilterDialog,
+}) {
 
 export default function ShoppingList({ onDeleteItem, shoppingItemData }) {
   if (!shoppingItemData?.length === 0) return <p>No items found.</p>;
@@ -21,8 +26,16 @@ export default function ShoppingList({ onDeleteItem, shoppingItemData }) {
     <>
       <Header>
         <h2>({shoppingItemData.length} items)</h2>
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            toggleFilterDialog();
+          }}
+        >
+          Filter
+        </a>
       </Header>
-
       <StyledList>
         {shoppingItemData.map((item) => (
           <li key={item._id} style={{ margin: 16 }}>
