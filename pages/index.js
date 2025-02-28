@@ -17,10 +17,12 @@ export default function HomePage() {
   const { data, mutate } = useSWR("/api/items");
   const shoppingItems = data?.filter((item) => !item.isPurchasable);
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState([]);
 
-  const handleToggle = () => setIsOpen(!isOpen);
+  const handleFormToggle = () => setIsFormOpen(!isFormOpen);
+  const handleFilterToggle = () => setIsFilterOpen(!isFilterOpen);
 
   async function handleSubmit(data) {
     const response = await fetch("/api/items", {
@@ -64,9 +66,8 @@ export default function HomePage() {
     mutate();
   }
 
-  const handleCategoryFilter = (categories) => {
-    setSelectedCategories(categories);
-  };
+  const handleCategoryFilter = setSelectedCategories;
+  console.log("Handle Category Filter", setSelectedCategories);
 
   const filteredItems = data?.filter(
     (item) =>
@@ -75,28 +76,36 @@ export default function HomePage() {
         selectedCategories.includes(item.category))
   );
 
-  if (!shoppingItems) return <p>Loading items...</p>;
+  if (!shoppingItems || shoppingItems.length === 0)
+    return <p>No items found.</p>;
   if (shoppingItems.error) return <p>Failed to load items.</p>;
 
   return (
     <>
-      <ToggleButton onClick={handleToggle}>
-        {isOpen ? "- Collapse" : "+ Add item"}
+      <ToggleButton onClick={handleFormToggle}>
+        {isFormOpen ? "- Collapse" : "+ Add item"}
       </ToggleButton>
-      {isOpen && (
+      {isFormOpen && (
         <Form
           onSubmit={(data) => {
             handleSubmit(data);
-            setIsOpen(false);
+            setIsFormOpen(false);
           }}
           buttonName="Submit"
         />
       )}
-      <FilterForm onFilter={handleCategoryFilter} />
+      {isFilterOpen && (
+        <FilterForm
+          selectedCategories={selectedCategories}
+          onCategorySelect={handleCategoryFilter}
+          closeModal={() => setIsFilterOpen(false)}
+        />
+      )}
       <ShoppingList
         onDeleteItem={handleDeleteItem}
         shoppingItemData={filteredItems}
         onTogglePurchase={handleTogglePurchase}
+        toggleFilterDialog={handleFilterToggle}
         isPurchasable
       />
     </>
