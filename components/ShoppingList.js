@@ -18,14 +18,12 @@ export default function ShoppingList({
   shoppingItemData,
   toggleFilterDialog,
 }) {
-
-export default function ShoppingList({ onDeleteItem, shoppingItemData }) {
   if (!shoppingItemData?.length === 0) return <p>No items found.</p>;
 
   return (
     <>
       <Header>
-        <h2>({shoppingItemData.length} items)</h2>
+        <h2>({shoppingItemData?.length} items)</h2>
         <a
           href="#"
           onClick={(e) => {
@@ -37,7 +35,7 @@ export default function ShoppingList({ onDeleteItem, shoppingItemData }) {
         </a>
       </Header>
       <StyledList>
-        {shoppingItemData.map((item) => (
+        {shoppingItemData?.map((item) => (
           <li key={item._id} style={{ margin: 16 }}>
             <ShoppingItem
               cardId={item._id}

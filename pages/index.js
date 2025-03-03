@@ -49,8 +49,8 @@ export default function HomePage() {
 
   return (
     <>
-      <ToggleButton onClick={handleToggle}>
-        {isOpen ? "- Collapse" : "+ Add item"}
+      <ToggleButton onClick={handleFormToggle}>
+        {isFormOpen ? "- Collapse" : "+ Add item"}
       </ToggleButton>
       {isFormOpen && (
         <Form
@@ -68,8 +68,8 @@ export default function HomePage() {
           closeModal={() => setIsFilterOpen(false)}
         />
       )}
-      {shoppingItems.length === 0 && <p>No items found.</p>}
-      {shoppingItems.error && <p>Failed to load items</p>}
+      {shoppingItems?.length === 0 && <p>No items found.</p>}
+      {shoppingItems?.error && <p>Failed to load items</p>}
       <ShoppingList
         shoppingItemData={filteredItems}
         toggleFilterDialog={handleFilterToggle}
