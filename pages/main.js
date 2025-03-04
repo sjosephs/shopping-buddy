@@ -18,7 +18,9 @@ export default function HomePage() {
 
   const [isFormOpen, setIsFormOpen] = useState(false);
 
-  const handleFormToggle = () => setIsFormOpen(!isFormOpen);
+ function handleFormToggle(){
+  setIsFormOpen(!isFormOpen);
+  }
 
   async function handleSubmit(data) {
     const response = await fetch("/api/items", {
