@@ -21,8 +21,8 @@ export default function ShoppingList({ shoppingItemData }) {
 
   const handleFilterToggle = () => setIsFilterOpen(!isFilterOpen);
 
-  const handleCategoryFilter = setSelectedCategories;
-  console.log("Handle Category Filter", setSelectedCategories);
+  const handleCategoryFilter = (categories) =>
+    setSelectedCategories(categories);
 
   const filteredItems = shoppingItemData?.filter(
     (item) =>
@@ -44,19 +44,13 @@ export default function ShoppingList({ shoppingItemData }) {
 
       <Header>
         <h2>({filteredItems?.length} items)</h2>
-        <a
-          href="#"
-          onClick={(e) => {
-            e.preventDefault();
-            handleFilterToggle();
-          }}
-        >
+        <button type="button" onClick={handleFilterToggle}>
           Filter
-        </a>
+        </button>
       </Header>
       <StyledList>
         {filteredItems?.map((item) => (
-          <li key={item._id} style={{ margin: 16 }}>
+          <li key={item._id}>
             <ShoppingItem
               cardId={item._id}
               cardImage={item.imageUrl}
