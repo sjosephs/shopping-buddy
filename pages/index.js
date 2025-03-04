@@ -40,7 +40,6 @@ export default function HomePage() {
       <ToggleButton onClick={handleFormToggle}>
         {isFormOpen ? "- Collapse" : "+ Add item"}
       </ToggleButton>
-      {console.log("........", shoppingItems)}
       {isFormOpen && (
         <Form
           onSubmit={(data) => {
