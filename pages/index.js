@@ -3,7 +3,6 @@ import ShoppingList from "@/components/ShoppingList";
 import useSWR from "swr";
 import { useState } from "react";
 import styled from "styled-components";
-import FilterForm from "@/components/FilterForm";
 
 const ToggleButton = styled.button`
   font-size: 1.5rem;
@@ -14,15 +13,14 @@ const ToggleButton = styled.button`
 `;
 
 export default function HomePage() {
-  const { data, mutate } = useSWR("/api/items");
+  const { data, mutate, error } = useSWR("/api/items");
   const shoppingItems = data?.filter((item) => !item.isPurchasable);
 
   const [isFormOpen, setIsFormOpen] = useState(false);
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [selectedCategories, setSelectedCategories] = useState([]);
 
   const handleFormToggle = () => setIsFormOpen(!isFormOpen);
-  const handleFilterToggle = () => setIsFilterOpen(!isFilterOpen);
+
+  if (error) return <p>Failed to load items</p>;
 
   async function handleSubmit(data) {
     const response = await fetch("/api/items", {
@@ -36,16 +34,6 @@ export default function HomePage() {
     }
     mutate();
   }
-
-  const handleCategoryFilter = setSelectedCategories;
-  console.log("Handle Category Filter", setSelectedCategories);
-
-  const filteredItems = data?.filter(
-    (item) =>
-      !item.isPurchasable &&
-      (selectedCategories.length === 0 ||
-        selectedCategories.includes(item.category))
-  );
 
   return (
     <>
@@ -61,20 +49,9 @@ export default function HomePage() {
           buttonName="Submit"
         />
       )}
-      {isFilterOpen && (
-        <FilterForm
-          selectedCategories={selectedCategories}
-          onCategorySelect={handleCategoryFilter}
-          closeModal={() => setIsFilterOpen(false)}
-        />
-      )}
+
       {shoppingItems?.length === 0 && <p>No items found.</p>}
-      {shoppingItems?.error && <p>Failed to load items</p>}
-      <ShoppingList
-        shoppingItemData={filteredItems}
-        toggleFilterDialog={handleFilterToggle}
-        isPurchasable
-      />
+      <ShoppingList shoppingItemData={shoppingItems} />
     </>
   );
 }
