@@ -15,10 +15,11 @@ export default function App({
     <SessionProvider session={session}>
       <SWRConfig value={{ fetcher }}>
         <Layout>
-          <Login />
-          <GlobalStyle />
-          <NavBar />
-          <Component {...pageProps} />
+          <Login>
+            <GlobalStyle />
+            <NavBar />
+            <Component {...pageProps} />
+          </Login>
         </Layout>
       </SWRConfig>
     </SessionProvider>
