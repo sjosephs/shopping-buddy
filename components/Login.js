@@ -4,8 +4,14 @@ import styled from "styled-components";
 
 const Container = styled.div`
   display: flex;
-  min-height: 100vh;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow: hidden;
 `;
+
 const ImageContainer = styled.div`
   flex: 1;
   position: relative;
@@ -81,3 +87,5 @@ export default function Login({ children }) {
     </Container>
   );
 }
+
+Login.displayName = "Login";
