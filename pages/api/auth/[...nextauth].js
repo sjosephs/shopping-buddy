@@ -9,14 +9,27 @@ export const authOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      wellKnown: "https://accounts.google.com/.well-known/openid-configuration",
       authorization: {
         params: {
           prompt: "consent",
           access_type: "offline",
           response_type: "code",
+          scope: "openid email profile",
         },
       },
+      idToken: true,
+      checks: ["pkce", "state"],
+      profile(profile) {
+        return {
+          id: profile.sub,
+          name: profile.name,
+          email: profile.email,
+          image: profile.picture,
+        };
+      },
     }),
+
     // If running in Vercel Preview, use CredentialsProvider
     process.env.VERCEL_ENV === "preview"
       ? CredentialsProvider({
