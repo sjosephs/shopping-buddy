@@ -6,6 +6,17 @@ import GoogleProvider from "next-auth/providers/google";
 export const authOptions = {
   // Configure one or more authentication providers
   providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code",
+        },
+      },
+    }),
     // If running in Vercel Preview, use CredentialsProvider
     process.env.VERCEL_ENV === "preview"
       ? CredentialsProvider({
@@ -39,10 +50,7 @@ export const authOptions = {
           clientId: process.env.GITHUB_ID,
           clientSecret: process.env.GITHUB_SECRET,
         }),
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    }),
+
     // ...add more providers here
   ],
 
