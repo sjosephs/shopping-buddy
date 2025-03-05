@@ -55,6 +55,8 @@ export default function Login({ children }) {
         <Header>Personal Shopping Made Easy</Header>
         <h4>Create Your Personal Shopping List And Keep Track </h4>
         <button onClick={() => signIn()}>Sign in</button>
+        <br />
+        <button onClick={() => signIn()}>Sign in with Google</button>
       </LoginContainer>
     </Container>
   );
