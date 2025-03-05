@@ -1,12 +1,34 @@
 import Image from "next/image";
 import styled from "styled-components";
 import Link from "next/link";
+import DeleteButton from "./DeleteButton";
+import PurchasedButton from "./PurchasedButton";
 import { mutate } from "swr";
 
 const Article = styled.article`
-  border: 1px solid black;
-  border-radius: 0.8rem;
-  padding: 0.5rem;
+  background-color: #f3f4f6;
+  border-radius: 1rem;
+  padding: 1rem;
+`;
+
+const ImageContainer = styled.div`
+  position: relative;
+  height: 10rem;
+  margin-bottom: 20px;
+`;
+
+const Figure = styled.figure`
+  color: black;
+  position: relative;
+  margin: 0;
+  padding: 0;
+`;
+
+const TitleRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 `;
 
 export default function ShoppingItem({
@@ -46,25 +68,36 @@ export default function ShoppingItem({
   return (
     <Article>
       <Link href={`/${cardId}`}>
-        <Image
-          src={
-            cardImage ||
-            "https://plus.unsplash.com/premium_photo-1661332019368-5feafaba06aa?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8ZmFsbGJhY2slMjBpbWFnZSUyMGZvciUyMHNob3BwaW5nJTIwbGlzdHxlbnwwfHwwfHx8MA%3D%3D"
-          }
-          alt={cardTitle || "Shopping Item Image"}
-          width={400}
-          height={300}
-        />
+        <Figure>
+          <ImageContainer>
+            <Image
+              src={cardImage}
+              fill
+              sizes="(max-width: 768px) 100vw,
+              (max-width: 1200px) 50vw,
+              33vw"
+              alt=""
+              style={{
+                objectFit: "cover", // Fix object-fit
+                borderRadius: "10px", // Fix border-radius
+              }}
+            />
+          </ImageContainer>
+          <TitleRow>
+            <figcaption>
+              <strong>
+                {cardTitle} (x{cardQuantity})
+              </strong>
+            </figcaption>
+            <PurchasedButton
+              handleTogglePurchase={handleTogglePurchase}
+              isPurchasable={isPurchasable}
+            />
+          </TitleRow>
+          <p>{cardCategory}</p>
+          <DeleteButton handleDeleteItem={handleDeleteItem} cardId={cardId} />
+        </Figure>
       </Link>
-      <p>{cardTitle}</p>
-      <p>{cardQuantity}</p>
-      <p>{cardCategory}</p>
-
-      <button onClick={handleTogglePurchase}>
-        {isPurchasable ? "Move to Shopping List" : "Mark as Purchased"}
-      </button>
-
-      <button onClick={handleDeleteItem}>DELETE</button>
     </Article>
   );
 }

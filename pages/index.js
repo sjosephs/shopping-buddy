@@ -2,15 +2,7 @@ import Form from "@/components/Form";
 import ShoppingList from "@/components/ShoppingList";
 import useSWR from "swr";
 import { useState } from "react";
-import styled from "styled-components";
-
-const ToggleButton = styled.button`
-  font-size: 1.5rem;
-  background-color: lightgray;
-  border: 1px solid black;
-  cursor: pointer;
-  margin-bottom: 1rem;
-`;
+import FloatingButton from "@/components/FloatingButton";
 
 export default function HomePage() {
   const { data, mutate, error } = useSWR("/api/items");
@@ -37,9 +29,11 @@ export default function HomePage() {
 
   return (
     <>
-      <ToggleButton onClick={handleFormToggle}>
-        {isFormOpen ? "- Collapse" : "+ Add item"}
-      </ToggleButton>
+      {shoppingItems?.length === 0 && <p>No items found.</p>}
+      <ShoppingList shoppingItemData={shoppingItems} />
+      <FloatingButton onClick={handleFormToggle}>
+        {isFormOpen ? "- Collapse" : "+ Add Item"}
+      </FloatingButton>
       {isFormOpen && (
         <Form
           onSubmit={(data) => {
@@ -49,9 +43,6 @@ export default function HomePage() {
           buttonName="Submit"
         />
       )}
-
-      {shoppingItems?.length === 0 && <p>No items found.</p>}
-      <ShoppingList shoppingItemData={shoppingItems} />
     </>
   );
 }

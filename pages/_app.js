@@ -1,6 +1,5 @@
 import Layout from "@/components/Layout";
 import GlobalStyle from "../styles";
-import NavBar from "@/components/NavBar";
 import { SWRConfig } from "swr";
 import { SessionProvider } from "next-auth/react";
 import Login from "@/components/Login";
@@ -17,7 +16,6 @@ export default function App({
         <GlobalStyle />
         <Layout>
           <Login>
-            <NavBar />
             <Component {...pageProps} />
           </Login>
         </Layout>
