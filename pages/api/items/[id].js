@@ -1,10 +1,19 @@
 import dbConnect from "@/db/connect";
 import Item from "@/db/models/Item";
+import { getToken } from "next-auth/jwt";
 
 export default async function handler(request, response) {
   await dbConnect();
 
+  const token = await getToken({ req: request });
+  const userId = token?.sub;
+
   const { id } = request.query;
+
+  if (!userId) {
+    return response.status(401).json({ message: "Unauthorized" });
+  }
+
   try {
     if (request.method === "GET") {
       const item = await Item.findById(id);

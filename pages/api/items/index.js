@@ -1,8 +1,12 @@
 import dbConnect from "@/db/connect";
 import Item from "@/db/models/Item";
+import { getToken } from "next-auth/jwt";
 
 export default async function handler(request, response) {
   await dbConnect();
+
+  const token = await getToken({ req: request });
+  const userID = token?.sub;
 
   if (request.method === "GET") {
     const items = await Item.find().sort({ createdAt: -1 });
