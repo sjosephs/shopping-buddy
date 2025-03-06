@@ -1,26 +1,14 @@
-import Form from "@/components/Form";
+import AddItemForm from "@/components/AddItemForm";
 import ShoppingList from "@/components/ShoppingList";
 import useSWR from "swr";
 import { useState } from "react";
-import styled from "styled-components";
-
-const ToggleButton = styled.button`
-  font-size: 1.5rem;
-  background-color: lightgray;
-  border: 1px solid black;
-  cursor: pointer;
-  margin-bottom: 1rem;
-`;
+import FloatingButton from "@/components/FloatingButton";
 
 export default function HomePage() {
   const { data, mutate, error } = useSWR("/api/items");
   const shoppingItems = data?.filter((item) => !item.isPurchasable);
 
-  const [isFormOpen, setIsFormOpen] = useState(false);
-
-  const handleFormToggle = () => setIsFormOpen(!isFormOpen);
-
-  if (error) return <p>Failed to load items</p>;
+  const [isFormVisible, setIsFormVisible] = useState(false);
 
   async function handleSubmit(data) {
     const response = await fetch("/api/items", {
@@ -35,23 +23,26 @@ export default function HomePage() {
     mutate();
   }
 
+  if (error) return <p>Failed to load items</p>;
+
   return (
     <>
-      <ToggleButton onClick={handleFormToggle}>
-        {isFormOpen ? "- Collapse" : "+ Add item"}
-      </ToggleButton>
-      {isFormOpen && (
-        <Form
-          onSubmit={(data) => {
-            handleSubmit(data);
-            setIsFormOpen(false);
-          }}
-          buttonName="Submit"
-        />
-      )}
-
       {shoppingItems?.length === 0 && <p>No items found.</p>}
       <ShoppingList shoppingItemData={shoppingItems} />
+
+      <FloatingButton onClick={() => setIsFormVisible(true)}>
+        + Add Item
+      </FloatingButton>
+
+      {isFormVisible && (
+        <AddItemForm
+          onSubmit={(data) => {
+            handleSubmit(data);
+            setIsFormVisible(false);
+          }}
+          closeModal={() => setIsFormVisible(false)}
+        />
+      )}
     </>
   );
 }

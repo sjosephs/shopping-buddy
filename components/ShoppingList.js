@@ -2,9 +2,14 @@ import ShoppingItem from "./ShoppingItem";
 import styled from "styled-components";
 import { useState } from "react";
 import FilterForm from "@/components/FilterForm";
+import FilterButton from "./FilterButton";
 
 const StyledList = styled.ul`
   list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  width: 100%;
   padding: 0;
   margin: 0;
 `;
@@ -12,7 +17,13 @@ const StyledList = styled.ul`
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 1rem;
+  padding: 0px;
+`;
+
+const ItemCounter = styled.h3`
+  display: flex;
+  align-items: center;
+  margin: 0;
 `;
 
 export default function ShoppingList({ shoppingItemData }) {
@@ -43,10 +54,10 @@ export default function ShoppingList({ shoppingItemData }) {
       )}
 
       <Header>
-        <h2>({filteredItems?.length} items)</h2>
-        <button type="button" onClick={handleFilterToggle}>
+        <ItemCounter>({filteredItems?.length} items)</ItemCounter>
+        <FilterButton handleFilterToggle={handleFilterToggle}>
           Filter
-        </button>
+        </FilterButton>
       </Header>
       <StyledList>
         {filteredItems?.map((item) => (
