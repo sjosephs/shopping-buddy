@@ -10,7 +10,6 @@ const StyledFilterButton = styled.button`
   border: none;
   cursor: pointer;
   font-size: 1.2rem;
-  color: black;
   transition: color 0.3s ease;
 
   &:hover {
