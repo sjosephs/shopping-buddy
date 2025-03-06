@@ -65,6 +65,7 @@ const productionProviders = [
 
   // ...add more providers here
 ];
+console.log(process.env.VERCEL_ENV);
 
 export const authOptions = {
   // Configure one or more authentication providers
