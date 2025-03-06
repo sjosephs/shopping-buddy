@@ -10,13 +10,11 @@ const StyledButton = styled.button`
   border: none;
   cursor: pointer;
   font-size: 30px;
-  color: ${({ isPurchasable }) =>
-    isPurchasable ? "#1E4A3C" : "#6b7280"}; /* Green when active */
+  color: #024b3b; /* Green color */
   transition: color 0.3s ease;
 
   &:hover {
-    color: ${({ isPurchasable }) =>
-      isPurchasable ? "#4d8175" : "#4d4d4d"}; /* Lighter on hover */
+    color: #4d8175; /* Lighter green on hover */
   }
 `;
 

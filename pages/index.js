@@ -1,4 +1,4 @@
-import Form from "@/components/Form";
+import AddItemForm from "@/components/AddItemForm";
 import ShoppingList from "@/components/ShoppingList";
 import useSWR from "swr";
 import { useState } from "react";
@@ -8,11 +8,7 @@ export default function HomePage() {
   const { data, mutate, error } = useSWR("/api/items");
   const shoppingItems = data?.filter((item) => !item.isPurchasable);
 
-  const [isFormOpen, setIsFormOpen] = useState(false);
-
-  const handleFormToggle = () => setIsFormOpen(!isFormOpen);
-
-  if (error) return <p>Failed to load items</p>;
+  const [isFormVisible, setIsFormVisible] = useState(false);
 
   async function handleSubmit(data) {
     const response = await fetch("/api/items", {
@@ -27,20 +23,24 @@ export default function HomePage() {
     mutate();
   }
 
+  if (error) return <p>Failed to load items</p>;
+
   return (
     <>
       {shoppingItems?.length === 0 && <p>No items found.</p>}
       <ShoppingList shoppingItemData={shoppingItems} />
-      <FloatingButton onClick={handleFormToggle}>
-        {isFormOpen ? "- Collapse" : "+ Add Item"}
+
+      <FloatingButton onClick={() => setIsFormVisible(true)}>
+        + Add Item
       </FloatingButton>
-      {isFormOpen && (
-        <Form
+
+      {isFormVisible && (
+        <AddItemForm
           onSubmit={(data) => {
             handleSubmit(data);
-            setIsFormOpen(false);
+            setIsFormVisible(false);
           }}
-          buttonName="Submit"
+          closeModal={() => setIsFormVisible(false)}
         />
       )}
     </>
