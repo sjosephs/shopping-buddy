@@ -6,19 +6,29 @@ export default async function handler(request, response) {
   await dbConnect();
 
   const token = await getToken({ req: request });
-  const userID = token?.sub;
+  console.log("Token Data:", token);
+  const userId = token?.sub;
+  console.log("Extracted userId:", userId);
+
+  if (!userId) {
+    return response
+      .status(401)
+      .json({ message: "Unauthorized: No user ID found" });
+  }
 
   if (request.method === "GET") {
-    const items = await Item.find().sort({ createdAt: -1 });
+    const items = await Item.find({ owner: userId }).sort({ createdAt: -1 });
+    console.log("FETCHED ITEMS:", items);
     return response.status(200).json(items);
   }
 
   if (request.method === "POST") {
     try {
-      const newItem = await Item.create(request.body);
+      const newItem = await Item.create({ ...request.body, owner: userId });
+      console.log("CREATED ITEM:", newItem);
       return response.status(201).json(newItem);
     } catch (error) {
-      console.error(error);
+      console.error("ERROR CREATING ITEM:", error);
       return response.status(400).json({ error: error.message });
     }
   }

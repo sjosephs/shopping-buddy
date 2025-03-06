@@ -11,12 +11,12 @@ export default async function handler(request, response) {
   const { id } = request.query;
 
   if (!userId) {
-    return response.status(401).json({ message: "Unauthorized" });
+    return response.status(401).json({ message: "Unauthorized Access" });
   }
 
   try {
     if (request.method === "GET") {
-      const item = await Item.findById(id);
+      const item = await Item.findById({ _id: id, owner: userId });
       if (!item) {
         response.status(404).json({ message: "Item not found" });
         return;
@@ -25,18 +25,28 @@ export default async function handler(request, response) {
     }
 
     if (request.method === "DELETE") {
-      const deleteShoppingItem = await Item.findByIdAndDelete(id);
+      const deleteShoppingItem = await Item.findByIdAndDelete({
+        _id: id,
+        owner: userId,
+      });
       if (!deleteShoppingItem) {
-        response.status(404).json({ message: "Item not found" });
+        response
+          .status(404)
+          .json({ message: "Item not found or not owned by user" });
         return;
       }
       response.status(200).json({ message: "Successfully deleted this item" });
     }
 
     if (request.method === "PUT") {
-      const updatedItem = await Item.findByIdAndUpdate(id, request.body);
+      const updatedItem = await Item.findByIdAndUpdate(
+        { _id: id, owner: userId },
+        request.body
+      );
       if (!updatedItem) {
-        response.status(404).json({ message: "Item not found" });
+        response
+          .status(404)
+          .json({ message: "Item not found or not owned by user" });
         return;
       }
       response.status(200).json(updatedItem);
