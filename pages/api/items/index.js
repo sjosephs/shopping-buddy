@@ -7,7 +7,6 @@ export default async function handler(request, response) {
 
   const token = await getToken({ req: request });
   const userId = token?.sub;
-  console.log("Extracted userId:", userId);
 
   if (!userId) {
     return response
