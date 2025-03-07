@@ -9,6 +9,7 @@ const itemSchema = new Schema({
   comment: { type: String, required: false },
   isPurchasable: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },
+  owner: { type: String, required: true },
 });
 
 const Item = mongoose.models.Item || mongoose.model("Item", itemSchema);
