@@ -16,7 +16,6 @@ export default async function handler(request, response) {
 
   if (request.method === "GET") {
     const items = await Item.find({ owner: userId }).sort({ createdAt: -1 });
-    console.log("FETCHED ITEMS:", items);
     return response.status(200).json(items);
   }
 
