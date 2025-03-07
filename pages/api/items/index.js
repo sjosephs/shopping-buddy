@@ -22,7 +22,6 @@ export default async function handler(request, response) {
   if (request.method === "POST") {
     try {
       const newItem = await Item.create({ ...request.body, owner: userId });
-      console.log("CREATED ITEM:", newItem);
       return response.status(201).json(newItem);
     } catch (error) {
       console.error("ERROR CREATING ITEM:", error);
