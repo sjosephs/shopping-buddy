@@ -6,7 +6,6 @@ export default async function handler(request, response) {
   await dbConnect();
 
   const token = await getToken({ req: request });
-  console.log("Token Data:", token);
   const userId = token?.sub;
   console.log("Extracted userId:", userId);
 
