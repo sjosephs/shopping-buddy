@@ -3,7 +3,7 @@ import styled from "styled-components";
 const FloatingButton = styled.button`
   text-align: center;
   position: fixed;
-  bottom: 50px;
+  bottom: 40px;
   left: 50px;
   font-family: "Inter", sans-serif;
   background-color: #024b3b;

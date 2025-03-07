@@ -1,7 +1,8 @@
 import Image from "next/image";
 import styled from "styled-components";
 import Link from "next/link";
-import DeleteButton from "./DeleteButton";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBox } from "@fortawesome/free-solid-svg-icons";
 import PurchasedButton from "./PurchasedButton";
 import { mutate } from "swr";
 
@@ -14,7 +15,15 @@ const Article = styled.article`
 const ImageContainer = styled.div`
   position: relative;
   height: 10rem;
-  margin-bottom: 20px;
+  margin-bottom: 0px;
+`;
+
+const TitleRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-bottom: 0;
 `;
 
 const Figure = styled.figure`
@@ -24,11 +33,29 @@ const Figure = styled.figure`
   padding: 0;
 `;
 
-const TitleRow = styled.div`
+const Header = styled.h2`
+  font-family: "Inter", sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+`;
+
+const QuantityRow = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 100%;
+  gap: 8px;
+  font-size: 1rem;
+`;
+
+const DeleteLink = styled.button`
+  font-size: 16px;
+  font-weight: bold;
+  background: none;
+  border: none;
+  padding: 0;
+  margin-top: 16px;
+  color: #b90000;
+  text-decoration: none;
+  cursor: pointer;
 `;
 
 export default function ShoppingItem({
@@ -84,18 +111,19 @@ export default function ShoppingItem({
             />
           </ImageContainer>
           <TitleRow>
-            <figcaption>
-              <strong>
-                {cardTitle} (x{cardQuantity})
-              </strong>
-            </figcaption>
+            <Header>{cardTitle}</Header>
             <PurchasedButton
               handleTogglePurchase={handleTogglePurchase}
               isPurchasable={isPurchasable}
             />
           </TitleRow>
-          <p>{cardCategory}</p>
-          <DeleteButton handleDeleteItem={handleDeleteItem} cardId={cardId} />
+          <QuantityRow>
+            <FontAwesomeIcon icon={faBox} style={{ fontSize: 20 }} />
+            <span style={{ fontSize: 18, fontWeight: 500 }}>
+              {cardQuantity} ({cardCategory})
+            </span>
+          </QuantityRow>
+          <DeleteLink onClick={handleDeleteItem}>Delete Item</DeleteLink>
         </Figure>
       </Link>
     </Article>
