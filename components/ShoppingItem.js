@@ -123,9 +123,9 @@ export default function ShoppingItem({
               {cardQuantity} ({cardCategory})
             </span>
           </QuantityRow>
-          <DeleteLink onClick={handleDeleteItem}>Delete Item</DeleteLink>
         </Figure>
       </Link>
+      <DeleteLink onClick={handleDeleteItem}>Delete Item</DeleteLink>
     </Article>
   );
 }
