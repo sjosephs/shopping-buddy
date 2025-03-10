@@ -19,7 +19,11 @@ const Header = styled.header`
   width: 100%;
   height: 70px;
   z-index: 1000;
-  padding: 0 50px;
+  padding: 0 20px;
+
+  @media (min-width: 600px) {
+    padding: 0 50px;
+  }
 `;
 
 const AppName = styled.h1`
@@ -28,14 +32,24 @@ const AppName = styled.h1`
   color: #024b3b;
   background: #ffffff;
   letter-spacing: -px;
+  display: none;
+
+  @media (min-width: 600px) {
+    display: block;
+    font-size: 24px;
+  }
 `;
 
 const Logo = styled.div`
   gap: 10px;
   display: flex;
   align-items: center;
-  font-size: 30px; /* Adjusts size of the icon */
+  font-size: 24px; /* Adjusts size of the icon for smaller screens */
   color: #024b3b;
+
+  @media (min-width: 768px) {
+    font-size: 30px; /* Adjusts size of the icon for larger screens */
+  }
 `;
 
 const NavLinks = styled.div`
@@ -46,7 +60,7 @@ const NavLinks = styled.div`
   padding-right: 0px;
 
   a {
-    font-size: 18px;
+    font-size: 14px;
     color: #024b3b;
     text-decoration: none;
     font-weight: bold;
@@ -60,17 +74,25 @@ const NavLinks = styled.div`
     &:hover {
       color: #4d8175;
     }
+
+    @media (min-width: 600px) {
+      font-size: 18px;
+    }
   }
 `;
 
 const SignOutContainer = styled.div`
-  font-size: 24px;
+  font-size: 20px;
   color: #024b3b;
   cursor: pointer;
   margin-right: 20px;
 
   &:hover {
     color: #4d8175;
+  }
+
+  @media (min-width: 600px) {
+    font-size: 24px;
   }
 `;
 
