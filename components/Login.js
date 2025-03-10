@@ -4,17 +4,27 @@ import styled from "styled-components";
 
 const Container = styled.div`
   display: flex;
+  flex-direction: column;
   width: 100vw;
   height: 100vh;
   position: fixed;
   top: 0;
   left: 0;
   overflow: hidden;
+
+  @media (min-width: 600px) {
+    flex-direction: row;
+  }
 `;
 
 const ImageContainer = styled.div`
   flex: 1;
   position: relative;
+  height: 50%;
+
+  @media (min-width: 600px) {
+    height: 100%;
+  }
 `;
 
 const LoginContainer = styled.div`
@@ -24,7 +34,11 @@ const LoginContainer = styled.div`
   justify-content: center;
   align-items: center;
   background-color: white;
-  padding: 40px;
+  padding: 20px;
+
+  @media (min-width: 600px) {
+    padding: 40px;
+  }
 `;
 
 const Header = styled.h1`
@@ -33,12 +47,22 @@ const Header = styled.h1`
   color: #024b3b;
   letter-spacing: -1px;
   margin-bottom: 0;
+  text-align: center;
+
+  @media (min-width: 600px) {
+    font-size: 36px;
+  }
 `;
 
 const SubHeader = styled.h3`
   font-family: "Inter", sans-serif;
   color: #000000;
-  margin: 16;
+  margin: 16px, 0;
+  text-align: center;
+
+  @media (min-width: 600px) {
+    margin: 16px;
+  }
 `;
 
 const Button = styled.button`
@@ -55,6 +79,11 @@ const Button = styled.button`
 
   &:hover {
     background-color: #4d8175;
+  }
+
+  @media (min-width: 600px) {
+    font-size: 16px;
+    padding: 15px 80px;
   }
 `;
 
