@@ -1,9 +1,15 @@
 import ShoppingList from "@/components/ShoppingList";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import useSWR from "swr";
 
 export default function PurchasedPage() {
-  const { data, mutate } = useSWR("/api/items");
+  const { data, isValidating } = useSWR("/api/items");
   const purchasedItems = data?.filter((item) => item.isPurchasable) || [];
 
-  return <ShoppingList shoppingItemData={purchasedItems} />;
+  return (
+    <>
+      {isValidating && <LoadingSpinner />}
+      <ShoppingList shoppingItemData={purchasedItems} />
+    </>
+  );
 }
