@@ -4,12 +4,17 @@ import styled from "styled-components";
 
 const Container = styled.div`
   display: flex;
+  flex-direction: column;
   width: 100vw;
   height: 100vh;
   position: fixed;
   top: 0;
   left: 0;
   overflow: hidden;
+
+  @media (min-width: 600px) {
+    flex-direction: row;
+  }
 `;
 
 const ImageContainer = styled.div`
